@@ -4,11 +4,16 @@ import { errorHandler } from './middleware/errorHandler';
 import { pgQuery } from './db/pgClient';
 import { visitCounter } from './middleware/visitCounter';
 import { faker } from '@faker-js/faker';
+import cors from 'cors';
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 // 路由：首页
 app.get('/', visitCounter, (req: Request, res: Response) => {
@@ -79,6 +84,7 @@ app.put(
     try {
       const { id } = req.params;
       const { name, email } = req.body;
+      console.log(name);
 
       const { rows } = await pgQuery('SELECT * FROM users WHERE id = $1', [id]);
       if (rows.length === 0) {
