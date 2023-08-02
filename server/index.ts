@@ -5,7 +5,6 @@ import { pgQuery } from './db/pgClient';
 import { visitCounter } from './middleware/visitCounter';
 import { faker } from '@faker-js/faker';
 import cors from 'cors';
-import { redisGetAsync } from './db/redisClient';
 
 dotenv.config();
 
