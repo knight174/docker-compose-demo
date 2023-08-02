@@ -5,6 +5,7 @@ import { pgQuery } from './db/pgClient';
 import { visitCounter } from './middleware/visitCounter';
 import { faker } from '@faker-js/faker';
 import cors from 'cors';
+import { redisGetAsync } from './db/redisClient';
 
 dotenv.config();
 
@@ -21,7 +22,20 @@ app.get('/', visitCounter, (req: Request, res: Response) => {
   res.send(`Welcome to the website. Total visits: ${visitCount}`);
 });
 
-// 路由：获取用户列表
+// API：查看访问数据
+app.get(
+  '/api/visit-count',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const count = await redisGetAsync('visitCount');
+      res.json(count);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+// API：获取用户列表
 app.get(
   '/api/users',
   async (req: Request, res: Response, next: NextFunction) => {
@@ -36,7 +50,7 @@ app.get(
   }
 );
 
-// 路由：创建新用户
+// API：创建新用户
 app.post(
   '/api/users',
   async (req: Request, res: Response, next: NextFunction) => {
@@ -60,7 +74,7 @@ app.post(
   }
 );
 
-// 路由：获取指定用户
+// API：获取指定用户
 app.get(
   '/api/users/:id',
   async (req: Request, res: Response, next: NextFunction) => {
@@ -77,7 +91,7 @@ app.get(
   }
 );
 
-// 路由：更新指定用户
+// API：更新指定用户
 app.put(
   '/api/users/:id',
   async (req: Request, res: Response, next: NextFunction) => {
@@ -103,7 +117,7 @@ app.put(
   }
 );
 
-// 路由：软删除指定用户
+// API：软删除指定用户
 app.delete(
   '/api/users/:id',
   async (req: Request, res: Response, next: NextFunction) => {
