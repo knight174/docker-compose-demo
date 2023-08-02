@@ -36,6 +36,12 @@ docker network create network1
 docker run -d --name my-express-app --network=network1 -p 3000:3000 express-app
 ```
 
+## enter into server folder
+
+```bash
+cd server
+```
+
 ## start a psotgres server
 
 ```bash
