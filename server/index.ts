@@ -12,26 +12,18 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
+app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-// 路由：首页
-app.get('/', visitCounter, (req: Request, res: Response) => {
-  const visitCount = res.locals.visitCount;
-  res.send(`Welcome to the website. Total visits: ${visitCount}`);
-});
-
 // API：查看访问数据
 app.get(
   '/api/visit-count',
+  visitCounter,
   async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const count = await redisGetAsync('visitCount');
-      res.json(count);
-    } catch (err) {
-      next(err);
-    }
+    const visitCount = res.locals.visitCount;
+    res.json(visitCount);
   }
 );
 
