@@ -27,7 +27,7 @@ app.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { rows } = await pgQuery(
-        'SELECT * FROM users WHERE deleted = false LIMIT 20'
+        'SELECT * FROM users WHERE deleted = false LIMIT 30'
       );
       res.json(rows);
     } catch (err) {
