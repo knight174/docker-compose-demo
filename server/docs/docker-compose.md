@@ -2,7 +2,7 @@
 
 ## 启动容器
 
-这将根据 docker-compose.yml 文件中的配置启动所有定义的容器。
+根据 docker-compose.yml 文件中的配置启动所有定义的容器。
 
 ```bash
 docker-compose up

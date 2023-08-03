@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  express-app:
+    container_name: express-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - my-postgres
+      - my-redis
+    env_file:
+      # 从 .env 文件中读取环境变量
+      - .env
+    networks:
+      - network1
+  my-postgres:
+    image: postgres:14-alpine
+    restart: always
+    container_name: my-postgres
+    environment:
+      # 从 .env 文件中读取环境变量，使用 ${变量名} 来使用它们
+      - POSTGRES_DB=${PSQL_DB}
+      - POSTGRES_USER=${PSQL_USER}
+      - POSTGRES_PASSWORD=${PSQL_PASS}
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    networks:
+      - network1
+  my-redis:
+    image: redis:6.0.20-alpine
+    restart: always
+    container_name: my-redis
+    env_file: .env
+    volumes:
+      - ./redis-data:/data
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASS}
+    networks:
+      - network1
+
+networks:
+  network1:
