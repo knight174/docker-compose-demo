@@ -1,15 +1,13 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
-import dotenv from 'dotenv';
-import { errorHandler } from './middleware/errorHandler';
-import { pgQuery } from './db/pgClient';
-import { visitCounter } from './middleware/visitCounter';
-import { faker } from '@faker-js/faker';
 import cors from 'cors';
-
-dotenv.config();
+import { errorHandler } from './middleware/errorHandler';
+import { visitCounter } from './middleware/visitCounter';
+import { PORT } from './config/config';
+import { pgQuery } from './db/pgClient';
+import { faker } from '@faker-js/faker';
 
 const app: Express = express();
-const port = process.env.PORT;
+const port = PORT;
 
 app.use(express.static('./public'));
 app.use(express.json());
