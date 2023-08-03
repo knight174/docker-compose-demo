@@ -1,25 +1,9 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import { Pool, QueryResult, QueryResultRow } from 'pg';
 import { seed } from './seed';
-
-const {
-  PSQL_DB: database,
-  PSQL_USER: user,
-  PSQL_PASS: password,
-  PSQL_HOST: host,
-  PSQL_PORT,
-} = process.env;
+import { pgConfig } from '../config/config';
 
 // 创建 PostgreSQL 连接池
-const pgPool = new Pool({
-  user,
-  password,
-  host,
-  port: Number(PSQL_PORT),
-  database,
-});
+const pgPool = new Pool(pgConfig);
 
 // 封装 PostgreSQL 查询方法
 export const pgQuery = async <T extends QueryResultRow>(

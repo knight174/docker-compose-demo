@@ -1,11 +1,8 @@
 import Redis from 'ioredis';
+import { redisConfig } from '../config/config';
 
 // 创建 Redis 客户端连接
-const redisClient = new Redis({
-  host: 'localhost',
-  port: 6379,
-  password: '12345678',
-});
+const redisClient = new Redis(redisConfig);
 
 // 将 Redis 客户端的一些常用方法进行 Promise 化
 export const redisGetAsync = async (key: string): Promise<string | null> => {
