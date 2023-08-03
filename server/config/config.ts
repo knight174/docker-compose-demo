@@ -19,7 +19,7 @@ const pgConfig = {
   password: PSQL_PASS,
   host: NODE_ENV === 'production' ? PSQL_HOST : 'localhost',
   port: NODE_ENV === 'production' ? Number(PSQL_PORT) : 5432,
-  database: PSQL_DB,
+  database: NODE_ENV === 'production' ? PSQL_DB : 'dev',
 };
 
 // redis 配置
