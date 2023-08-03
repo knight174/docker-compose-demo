@@ -59,7 +59,9 @@ docker run -d --name my-postgres -v "$PWD/db-data":/var/lib/postgresql/data --ne
 docker exec -it my-postgres bash
 psql -U myuser
 CREATE DATABASE dev;
+# CREATE DATABASE prod;
 \c dev;
+# \c prod;
 ```
 
 非首次创建
@@ -67,6 +69,7 @@ CREATE DATABASE dev;
 ```bash
 docker exec -it my-postgres bash
 psql -U myuser -d dev
+# psql -U myuser -d prod
 ```
 
 ### create table
