@@ -45,7 +45,10 @@ docker run -d --name my-express-app --network=network1 -p 3000:3000 express-app
 ## start a psotgres server
 
 ```bash
-docker run -d --name my-postgres -v "$PWD/db-data":/var/lib/postgresql/data --network=network1 -p 5432:5432 -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword postgres:14-alpine
+# 开发
+docker run -d --name my-postgres -v "$PWD/db-data":/var/lib/postgresql/data --network network1 -p 5432:5432 -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword postgres:14-alpine
+# 生产
+docker run -d --name my-postgres -v "$PWD/db-data":/var/lib/postgresql/data --network network1 -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword postgres:14-alpine
 ```
 
 ### create database and connect
@@ -82,5 +85,20 @@ CREATE TABLE IF NOT EXISTS users (
 ## start a redis server
 
 ```bash
-docker run -d --name my-redis -v "$PWD/redis-data":/data --network=network1 -p 6379:6379 redis:6.0.20-alpine redis-server --appendonly yes --requirepass 12345678
+# 开发
+docker run -d --name my-redis -v "$PWD/redis-data":/data --network network1 -p 6379:6379 redis:6.0.20-alpine redis-server --appendonly yes --requirepass 12345678
+# 生产
+docker run -d --name my-redis -v "$PWD/redis-data":/data --network network1 redis:6.0.20-alpine redis-server --appendonly yes --requirepass 12345678
+```
+
+## build an image
+
+```bash
+docker build -t express-app .
+```
+
+## start a container with express-app
+
+```bash
+docker run -d --name my-express-app --network network1 -p 3000:3000 express-app
 ```
